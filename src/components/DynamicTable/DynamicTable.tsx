@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   TableSchema, 
   FilterValue, 
   SortConfig, 
-  TableColumn, 
-  ColumnType,
-  FilterOperator
+  TableColumn
 } from '../../types/index';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
@@ -18,6 +16,8 @@ interface DynamicTableProps {
   isLoading?: boolean;
   emptyMessage?: string;
   onRowClick?: (item: any) => void;
+  editMode?: boolean;
+  onFieldChange?: (rowIndex: number, field: string, value: any) => void;
 }
 
 const DynamicTable: React.FC<DynamicTableProps> = ({

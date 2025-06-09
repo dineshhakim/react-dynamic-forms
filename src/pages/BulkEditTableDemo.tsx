@@ -11,7 +11,8 @@ const BulkEditTableDemo: React.FC = () => {
     ...tasksWithBulkEditSchema,
     bulkEditConfig: {
       ...tasksWithBulkEditSchema.bulkEditConfig,
-      saveAction: async (items) => {
+      editableFields: tasksWithBulkEditSchema.bulkEditConfig?.editableFields || [],
+      saveAction: async (items: any[]) => {
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         setTaskData(items);

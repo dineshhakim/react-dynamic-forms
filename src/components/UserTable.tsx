@@ -36,15 +36,15 @@ const UserTable: React.FC<UserTableProps> = ({
   const columns = [
     {
       header: 'Name',
-      accessor: 'name',
+      accessor: (user: User) => user.name,
     },
     {
       header: 'Email',
-      accessor: 'email',
+      accessor: (user: User) => user.email,
     },
     {
       header: 'Role',
-      accessor: 'role',
+      accessor: (user: User) => user.role,
       className: 'capitalize',
     },
     {

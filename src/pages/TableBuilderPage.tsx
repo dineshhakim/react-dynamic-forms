@@ -6,7 +6,6 @@ import Select from '../components/ui/Select';
 import DynamicTable from '../components/DynamicTable';
 import Modal from '../components/ui/Modal';
 import { usersTableSchema, productsTableSchema } from '../schemas/tableSchemas';
-import { XMarkIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 const STORAGE_KEY = 'savedTableSchemas';
 
@@ -598,7 +597,7 @@ const TableBuilderPage: React.FC = () => {
             />
             <Input
               label="Header"
-              value={currentColumn.header}
+              value={typeof currentColumn.header === 'string' ? currentColumn.header : ''}
               onChange={(e) => setCurrentColumn({ ...currentColumn, header: e.target.value })}
               placeholder="e.g. Name"
               helperText="Display name for the column header"

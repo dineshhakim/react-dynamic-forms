@@ -140,31 +140,31 @@ const BulkEditTable: React.FC<BulkEditTableProps> = ({
       ...(reorderMode ? [{
         id: 'reorder',
         header: '',
-        accessor: (item: any, index: number) => (
+        accessor: (_item: any, index?: number) => (
           <div className="flex space-x-1">
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                handleMoveRow(index, 'up');
+                if (typeof index === 'number') handleMoveRow(index, 'up');
               }}
               className="p-1 text-gray-500 hover:text-gray-700"
-              disabled={index === 0}
+              disabled={typeof index === 'number' && index === 0}
             >
               ↑
             </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                handleMoveRow(index, 'down');
+                if (typeof index === 'number') handleMoveRow(index, 'down');
               }}
               className="p-1 text-gray-500 hover:text-gray-700"
-              disabled={index === editedData.length - 1}
+              disabled={typeof index === 'number' && index === editedData.length - 1}
             >
               ↓
             </button>
           </div>
         ),
-        type: 'text',
+        type: 'text' as const,
         width: '80px',
       }] : []),
     ],

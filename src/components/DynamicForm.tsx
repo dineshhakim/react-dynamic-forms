@@ -262,7 +262,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
               {field.label}
             </label>
             <div className="space-y-2">
-              {field.options?.map((option) => (
+              {field.options?.map((option: { value: string; label: string }) => (
                 <div key={option.value} className="flex items-center">
                   <input
                     type="radio"
