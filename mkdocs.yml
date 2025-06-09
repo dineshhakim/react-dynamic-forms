@@ -17,10 +17,17 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.tracking
+    - navigation.instant
+    - navigation.indexes
+    - toc.follow
+    - toc.integrate
     - search.suggest
     - search.highlight
+    - content.code.copy
   icon:
     repo: fontawesome/brands/github
+  custom_dir: docs/overrides
 
 plugins:
   - search
@@ -58,5 +65,11 @@ extra:
       link: https://github.com/yourusername
     - icon: fontawesome/brands/npm
       link: https://www.npmjs.com/package/react-dynamic-forms-tables
+
+extra_css:
+  - assets/css/custom.css
+
+extra_javascript:
+  - assets/js/custom.js
 
 copyright: Copyright &copy; 2023 Your Name

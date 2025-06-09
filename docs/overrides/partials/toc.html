@@ -1,0 +1,70 @@
+{% if page.toc | length > 0 %}
+  <nav class="md-nav md-nav--secondary" aria-label="{{ lang.t('toc.title') }}">
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      {{ lang.t("toc.title") }}
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      {% for toc_item in page.toc %}
+        {% include "partials/toc-item.html" %}
+      {% endfor %}
+    </ul>
+    
+    <!-- Toggle button for table of contents -->
+    <div class="toc-toggle-container">
+      <button id="toggleToc" class="toc-toggle-button">
+        <span id="tocToggleIcon">Hide TOC</span>
+      </button>
+    </div>
+  </nav>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleButton = document.getElementById('toggleToc');
+      const tocToggleIcon = document.getElementById('tocToggleIcon');
+      const tocNav = document.querySelector('.md-nav--secondary');
+      const tocItems = document.querySelector('.md-nav__list[data-md-component="toc"]');
+      
+      // Check if the TOC state is stored in localStorage
+      const isTocHidden = localStorage.getItem('tocHidden') === 'true';
+      
+      // Set initial state
+      if (isTocHidden) {
+        tocItems.style.display = 'none';
+        tocToggleIcon.textContent = 'Show TOC';
+      }
+      
+      toggleButton.addEventListener('click', function() {
+        const isHidden = tocItems.style.display === 'none';
+        tocItems.style.display = isHidden ? 'block' : 'none';
+        tocToggleIcon.textContent = isHidden ? 'Hide TOC' : 'Show TOC';
+        
+        // Store the state in localStorage
+        localStorage.setItem('tocHidden', !isHidden);
+      });
+    });
+  </script>
+  
+  <style>
+    .toc-toggle-container {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    
+    .toc-toggle-button {
+      background-color: transparent;
+      border: 1px solid var(--md-primary-fg-color);
+      color: var(--md-primary-fg-color);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .toc-toggle-button:hover {
+      background-color: var(--md-primary-fg-color);
+      color: white;
+    }
+  </style>
+{% endif %}

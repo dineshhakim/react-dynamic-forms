@@ -430,6 +430,75 @@ const tableSchema: TableSchema = {
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+### Side Menu
+
+The library includes a responsive side menu component that can be used for navigation:
+
+```tsx
+import { SideMenu, SideMenuMobile } from 'react-dynamic-forms-tables';
+
+function MyNavigation() {
+  const menuItems = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: <DashboardIcon />,
+      path: '/',
+    },
+    {
+      id: 'users',
+      label: 'Users',
+      icon: <UsersIcon />,
+      permission: 'view_users', // Only users with this permission will see this item
+      children: [
+        {
+          id: 'user-list',
+          label: 'User List',
+          path: '/users',
+        },
+        {
+          id: 'user-create',
+          label: 'Create User',
+          path: '/users/create',
+          permission: 'create_users',
+        },
+      ],
+    },
+  ];
+
+  const handleNavigate = (path) => {
+    // Handle navigation
+    console.log(`Navigate to: ${path}`);
+  };
+
+  return (
+    <>
+      {/* Desktop menu */}
+      <div className="hidden md:block">
+        <SideMenu
+          items={menuItems}
+          title="Admin Panel"
+          logo={<LogoIcon />}
+          onNavigate={handleNavigate}
+          collapsible={true}
+        />
+      </div>
+      
+      {/* Mobile menu */}
+      <div className="md:hidden">
+        <SideMenuMobile
+          items={menuItems}
+          title="Admin Panel"
+          logo={<LogoIcon />}
+          onNavigate={handleNavigate}
+        />
+      </div>
+    </>
+  );
+}
+```
+
 ## License
 
 MIT
+```
