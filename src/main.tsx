@@ -98,7 +98,7 @@ const router = createBrowserRouter([
     ),
   },
 ], {
-  basename: isProd ? "/react-dynamic-forms/" : "/",
+  basename: isProd ? "/react-dynamic-forms" : undefined,
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
