@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode; // Make children optional
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = () => {
   const location = useLocation();
   
   const navItems = [
@@ -49,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </nav>
       
       <main className="py-10">
-        {children}
+        <Outlet /> {/* This renders the matched child route */}
       </main>
       
       <footer className="bg-white border-t">
