@@ -1,0 +1,38 @@
+# Source files
+src/
+public/
+
+# Config files
+.github/
+.git/
+.gitignore
+.qodo/
+.eslintrc.js
+.prettierrc
+.prettierignore
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
+tsconfig.app.json
+
+# Development files
+node_modules/
+*.log
+*.lock
+.DS_Store
+.env
+.env.*
+
+# Build files that aren't dist/
+coverage/
+test/
+tests/
+__tests__/
+__mocks__/
+
+# Editor directories
+.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo

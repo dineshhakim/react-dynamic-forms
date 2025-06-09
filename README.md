@@ -1,6 +1,24 @@
 # React Dynamic Forms & Tables
 
-A modern React application featuring JSON-based dynamic forms and tables with advanced configuration options. This project demonstrates best practices for building flexible, reusable UI components for data input and display.
+A modern React library featuring JSON-based dynamic forms and tables with advanced configuration options. This library provides flexible, reusable UI components for data input and display.
+
+## Installation
+
+```bash
+npm install react-dynamic-forms-tables
+# or
+yarn add react-dynamic-forms-tables
+```
+
+## Peer Dependencies
+
+This library requires the following peer dependencies:
+
+```bash
+npm install @headlessui/react @heroicons/react react-router-dom tailwindcss
+# or
+yarn add @headlessui/react @heroicons/react react-router-dom tailwindcss
+```
 
 ## Features
 
@@ -20,91 +38,192 @@ A modern React application featuring JSON-based dynamic forms and tables with ad
 - 🛠️ Visual table builder
 - 🔄 JSON-based table configuration
 
-## Tech Stack
+### Permission System
+- 🔒 Role-based access control
+- 👁️ Conditional UI rendering based on permissions
+- 🛡️ Secure action handling
+- 🔑 Flexible permission checking
 
-- React 18
-- TypeScript
-- Vite
-- React Router
-- Tailwind CSS
-- React Hook Form
-- Zod (schema validation)
-- Headless UI (accessible components)
-- Hero Icons
+## Usage
 
-## Getting Started
+### Dynamic Form
 
-### Prerequisites
+```tsx
+import { DynamicForm, FormSchema } from 'react-dynamic-forms-tables';
 
-- Node.js (v16 or higher)
-- npm or yarn
+const userFormSchema: FormSchema = {
+  fields: [
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+      placeholder: 'Enter email address',
+      validation: {
+        required: 'Email is required',
+        pattern: {
+          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+          message: 'Invalid email address',
+        },
+      },
+    },
+    {
+      name: 'name',
+      label: 'Full Name',
+      type: 'text',
+      placeholder: 'Enter your full name',
+      validation: {
+        required: 'Name is required',
+      },
+    },
+  ],
+  displayConfig: {
+    mode: 'dialog',
+    title: {
+      create: 'Create New User',
+      edit: 'Edit User Profile',
+      view: 'User Details',
+    }
+  }
+};
 
-### Installation
+function MyForm() {
+  const handleSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/react-dynamic-forms.git
-   cd react-dynamic-forms
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install --legacy-peer-deps
-   # or
-   yarn install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-## Project Structure
-
+  return (
+    <DynamicForm 
+      schema={userFormSchema}
+      onSubmit={handleSubmit}
+      mode="create"
+      isOpen={true}
+      onClose={() => console.log('Form closed')}
+    />
+  );
+}
 ```
-src/
-├── components/
-│   ├── ui/                # Reusable UI components
-│   │   ├── Button.tsx
-│   │   ├── Input.tsx
-│   │   ├── Select.tsx
-│   │   ├── Badge.tsx
-│   │   ├── Modal.tsx
-│   │   └── Table.tsx
-│   ├── DynamicForm.tsx    # JSON-based form renderer
-│   ├── FormContainer.tsx  # Container for different form display modes
-│   ├── SidePanel.tsx      # Side panel component for forms
-│   ├── FormBuilder.tsx    # Visual form builder
-│   ├── DynamicTable/      # Dynamic table components
-│   │   ├── DynamicTable.tsx
-│   │   ├── FilterPanel.tsx
-│   │   └── index.ts
-│   └── Layout.tsx         # App layout with navigation
-├── pages/
-│   ├── FormBuilderPage.tsx    # Form builder page
-│   ├── FormDisplayDemo.tsx    # Demo of form display modes
-│   ├── TableDemoPage.tsx      # Table demo page
-│   └── TableBuilderPage.tsx   # Table builder page
-├── schemas/
-│   ├── userFormSchema.ts      # User form schema definition
-│   ├── productFormSchema.ts   # Product form schema definition
-│   ├── eventRegistrationSchema.ts # Event registration form schema
-│   ├── tableSchemas.ts        # Table schema definitions
-│   └── sampleForms.ts         # Sample form definitions
-├── types/
-│   └── index.ts               # TypeScript type definitions
-├── App.tsx                    # Main application component
-├── main.tsx                   # Entry point
-└── index.css                  # Global styles
+
+### Form Container
+
+```tsx
+import { FormContainer, FormSchema } from 'react-dynamic-forms-tables';
+
+function MyFormContainer() {
+  const handleSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <FormContainer 
+      schema={userFormSchema}
+      onSubmit={handleSubmit}
+      mode="create"
+      isOpen={true}
+      onClose={() => console.log('Form closed')}
+    />
+  );
+}
+```
+
+### Dynamic Table
+
+```tsx
+import { DynamicTable, TableSchema } from 'react-dynamic-forms-tables';
+
+const tableSchema: TableSchema = {
+  columns: [
+    {
+      id: 'name',
+      header: 'Name',
+      accessor: 'name',
+      type: 'text',
+      sortable: true,
+      filterable: true,
+    },
+    {
+      id: 'email',
+      header: 'Email',
+      accessor: 'email',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      id: 'status',
+      header: 'Status',
+      accessor: 'status',
+      type: 'badge',
+      badgeOptions: {
+        active: {
+          variant: 'success',
+          label: 'Active',
+        },
+        inactive: {
+          variant: 'danger',
+          label: 'Inactive',
+        },
+      },
+    },
+  ],
+  filters: [
+    {
+      id: 'name_filter',
+      label: 'Name',
+      type: 'text',
+      accessor: 'name',
+      operators: ['contains', 'equals', 'startsWith'],
+    },
+  ],
+  actions: [
+    {
+      label: 'Edit',
+      onClick: (item) => console.log('Edit', item),
+      variant: 'primary',
+      permission: 'edit_users', // Only users with this permission will see this action
+    },
+    {
+      label: 'Delete',
+      onClick: (item) => console.log('Delete', item),
+      variant: 'danger',
+      permission: ['delete_users', 'admin'], // Users with any of these permissions will see this action
+    },
+  ],
+  keyField: 'id',
+};
+
+function MyTable() {
+  const data = [
+    { id: '1', name: 'John Doe', email: 'john@example.com', status: 'active' },
+    { id: '2', name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' },
+  ];
+
+  return (
+    <DynamicTable 
+      schema={tableSchema}
+      data={data}
+    />
+  );
+}
+```
+
+### Form Builder
+
+```tsx
+import { FormBuilder } from 'react-dynamic-forms-tables';
+
+function MyFormBuilder() {
+  const handleSave = (schema) => {
+    console.log('Form schema:', schema);
+  };
+
+  return (
+    <FormBuilder onSave={handleSave} />
+  );
+}
 ```
 
 ## Form Display Modes
 
-The application supports three different ways to display forms:
+The library supports three different ways to display forms:
 
 ### 1. Dialog Mode
 Forms appear in a modal dialog in the center of the screen. Ideal for quick interactions.
@@ -152,92 +271,164 @@ displayConfig: {
 }
 ```
 
-## Dynamic Form Schema
+## Permission System
 
-Forms are defined using JSON schemas:
+The library includes a permission system that allows you to control access to buttons and actions based on user permissions.
 
-```typescript
-const userFormSchema: FormSchema = {
-  fields: [
-    {
-      name: 'email',
-      label: 'Email',
-      type: 'email',
-      placeholder: 'Enter email address',
-      validation: {
-        required: 'Email is required',
-        pattern: {
-          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          message: 'Invalid email address',
-        },
-      },
-    },
-    // More fields...
-  ],
-  displayConfig: {
-    mode: 'dialog',
-    // More display options...
-  }
-};
+### Setting Up Permissions
+
+Wrap your application with the `PermissionProvider` to enable permission checking:
+
+```tsx
+import { PermissionProvider } from 'react-dynamic-forms-tables';
+
+function App() {
+  // User permissions could come from your authentication system
+  const userPermissions = ['view_users', 'edit_users'];
+  
+  return (
+    <PermissionProvider permissions={userPermissions}>
+      <YourAppComponents />
+    </PermissionProvider>
+  );
+}
 ```
 
-## Dynamic Table Schema
+### Using Permissions with Buttons
 
-Tables are also defined using JSON schemas:
+You can restrict buttons based on permissions:
 
-```typescript
+```tsx
+import { Button } from 'react-dynamic-forms-tables';
+
+function MyComponent() {
+  return (
+    <div>
+      {/* This button will only be visible to users with 'create_user' permission */}
+      <Button permission="create_user" onClick={handleCreateUser}>
+        Create User
+      </Button>
+      
+      {/* This button requires any of the listed permissions */}
+      <Button permission={['edit_user', 'admin']} onClick={handleEditUser}>
+        Edit User
+      </Button>
+    </div>
+  );
+}
+```
+
+### Using Permissions with Table Actions
+
+You can also restrict table actions based on permissions:
+
+```tsx
 const tableSchema: TableSchema = {
-  columns: [
-    {
-      id: 'name',
-      header: 'Name',
-      accessor: 'name',
-      type: 'text',
-      sortable: true,
-      filterable: true,
-    },
-    // More columns...
-  ],
-  filters: [
-    {
-      id: 'name_filter',
-      label: 'Name',
-      type: 'text',
-      accessor: 'name',
-      operators: ['contains', 'equals', 'startsWith'],
-    },
-    // More filters...
-  ],
+  // ...other schema properties
   actions: [
     {
       label: 'Edit',
       onClick: (item) => console.log('Edit', item),
       variant: 'primary',
+      permission: 'edit_users', // Only users with this permission will see this action
     },
-    // More actions...
+    {
+      label: 'Delete',
+      onClick: (item) => console.log('Delete', item),
+      variant: 'danger',
+      permission: ['delete_users', 'admin'], // Users with any of these permissions will see this action
+    },
   ],
-  keyField: 'id',
 };
 ```
 
-## Form Builder
+### Using the Permission Hook
 
-The Form Builder allows you to:
-- Add, edit, and remove form fields
-- Configure field properties (type, label, validation, etc.)
-- Preview the form
-- Save and load form schemas
-- Export schemas as JSON
+You can use the `usePermissions` hook to check permissions in your components:
 
-## Table Builder
+```tsx
+import { usePermissions } from 'react-dynamic-forms-tables';
 
-The Table Builder allows you to:
-- Define table columns with different types
-- Add filtering capabilities
-- Configure sorting
-- Add row actions
-- Preview the table with sample data
-- Save and export table schemas
+function MyComponent() {
+  const { hasPermission, userPermissions } = usePermissions();
+  
+  // Check if user has a specific permission
+  const canCreateUser = hasPermission('create_user');
+  
+  // Check if user has any of the permissions
+  const canManageUsers = hasPermission(['edit_users', 'delete_users', 'admin']);
+  
+  return (
+    <div>
+      {canCreateUser && <div>User can create users</div>}
+      {canManageUsers && <div>User can manage users</div>}
+      <div>User has the following permissions: {userPermissions.join(', ')}</div>
+    </div>
+  );
+}
+```
+
+## Library Structure
+
+The library is organized as follows:
+
+```
+react-dynamic-forms-tables/
+├── components/
+│   ├── DynamicForm.tsx       # Main form component
+│   ├── FormContainer.tsx     # Container for different form modes
+│   ├── FormBuilder.tsx       # Visual form builder
+│   ├── DynamicTable/         # Table components
+│   │   ├── DynamicTable.tsx  # Main table component
+│   │   ├── FilterPanel.tsx   # Table filtering UI
+│   │   └── BulkEditTable.tsx # Bulk editing functionality
+│   └── ui/                   # Base UI components
+│       ├── Button.tsx        # Button with permission support
+│       ├── Badge.tsx         # Status badges
+│       └── ...
+├── context/
+│   └── PermissionContext.tsx # Permission management
+├── types/
+│   └── index.ts              # TypeScript type definitions
+└── lib/
+    ├── index.ts              # Main library exports
+    └── components.css        # Component styles
+```
+
+## Using with TypeScript
+
+The library is built with TypeScript and provides comprehensive type definitions:
+
+```tsx
+import { 
+  DynamicForm, 
+  FormSchema, 
+  FormField, 
+  FormMode,
+  TableSchema,
+  TableColumn,
+  PermissionProvider
+} from 'react-dynamic-forms-tables';
+
+// Define your form schema with proper typing
+const formSchema: FormSchema = {
+  fields: [
+    // Your form fields here
+  ]
+};
+
+// Define your table schema with proper typing
+const tableSchema: TableSchema = {
+  columns: [
+    // Your table columns here
+  ],
+  keyField: 'id'
+};
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 

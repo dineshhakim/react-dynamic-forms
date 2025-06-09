@@ -1,48 +1,63 @@
 import React from 'react';
+import { usePermissions } from '../../context/PermissionContext';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'outline' | 'success';
   size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
   isLoading?: boolean;
+  permission?: string | string[]; // Permission required to see this button
+  children: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
-  children,
-  className = '',
   variant = 'primary',
   size = 'md',
+  fullWidth = false,
   isLoading = false,
-  disabled,
+  permission,
+  className = '',
+  children,
   ...props
 }) => {
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const { hasPermission } = usePermissions();
+
+  // Check if user has permission to see this button
+  if (permission && !hasPermission(permission)) {
+    return null;
+  }
+
+  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2';
   
   const variantClasses = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
     secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
     danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-    outline: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
     success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
+    outline: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-blue-500',
   };
   
   const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
+    sm: 'px-2.5 py-1.5 text-xs',
     md: 'px-4 py-2 text-sm',
-    lg: 'px-5 py-2.5 text-base',
+    lg: 'px-6 py-3 text-base',
   };
   
-  const disabledClasses = 'opacity-50 cursor-not-allowed';
+  const widthClass = fullWidth ? 'w-full' : '';
+  
+  const buttonClasses = `
+    ${baseClasses}
+    ${variantClasses[variant]}
+    ${sizeClasses[size]}
+    ${widthClass}
+    ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}
+    ${className}
+  `;
   
   return (
     <button
-      className={`
-        ${baseClasses}
-        ${variantClasses[variant]}
-        ${sizeClasses[size]}
-        ${(disabled || isLoading) ? disabledClasses : ''}
-        ${className}
-      `}
-      disabled={disabled || isLoading}
+      className={buttonClasses}
+      disabled={isLoading || props.disabled}
       {...props}
     >
       {isLoading && (

@@ -12,6 +12,7 @@ import BulkEditTableDemo from './pages/BulkEditTableDemo'
 import ApiFormDemo from './pages/ApiFormDemo'
 import Layout from './components/Layout'
 
+const isProd = import.meta.env.MODE === "production";
 const router = createBrowserRouter([
   {
     path: '/',
@@ -97,7 +98,7 @@ const router = createBrowserRouter([
     ),
   },
 ], {
-  basename: '/react-dynamic-forms/',
+  basename: isProd ? "/react-dynamic-forms/" : "/",
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

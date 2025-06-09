@@ -125,6 +125,7 @@ export interface TableAction {
   onClick: (item: any) => void;
   variant?: 'primary' | 'secondary' | 'danger' | 'outline' | 'success';
   showCondition?: (item: any) => boolean;
+  permission?: string | string[]; // Single permission or array of permissions required
 }
 
 export interface TableFilter {
@@ -169,4 +170,15 @@ export interface FilterValue {
 export interface SortConfig {
   field: string;
   direction: 'asc' | 'desc';
+}
+
+// Permission context types
+export interface PermissionContextType {
+  hasPermission: (permission: string | string[]) => boolean;
+  userPermissions: string[];
+}
+
+export interface PermissionProviderProps {
+  children: React.ReactNode;
+  permissions?: string[];
 }

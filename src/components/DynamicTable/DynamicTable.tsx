@@ -9,6 +9,7 @@ import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import FilterPanel from './FilterPanel';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { usePermissions } from '../../context/PermissionContext';
 
 interface DynamicTableProps {
   schema: TableSchema;
@@ -213,10 +214,18 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const renderActions = (item: any) => {
     if (!schema.actions || schema.actions.length === 0) return null;
     
+    const { hasPermission } = usePermissions();
+    
     return (
       <div className="flex space-x-2">
         {schema.actions.map((action, index) => {
+          // Check if the action should be shown based on condition
           if (action.showCondition && !action.showCondition(item)) {
+            return null;
+          }
+          
+          // Check if the user has the required permission
+          if (action.permission && !hasPermission(action.permission)) {
             return null;
           }
           

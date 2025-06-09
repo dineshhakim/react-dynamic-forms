@@ -1,26 +1,53 @@
 {
-  "name": "react-dynamic-forms",
-  "private": true,
-  "version": "0.0.0",
+  "name": "react-dynamic-forms-tables",
+  "private": false,
+  "version": "0.1.0",
+  "description": "A library for creating dynamic forms and tables in React applications",
+  "author": "Your Name",
+  "license": "MIT",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "forms",
+    "tables",
+    "dynamic",
+    "json-schema",
+    "ui-components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/react-dynamic-forms-tables"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
-    "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
-    "react-router-dom": "^7.6.2",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
   },
+  "peerDependencies": {
+    "@headlessui/react": "^1.7.0",
+    "@heroicons/react": "^2.0.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "react-router-dom": "^6.0.0 || ^7.0.0",
+    "tailwindcss": "^3.0.0"
+  },
   "devDependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/uuid": "^9.0.8",
@@ -32,8 +59,12 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.33",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.6.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vite-plugin-dts": "^4.5.4"
   }
 }
